@@ -1,8 +1,11 @@
 lib_args = common_args + []
 
+gstvideo_dep = dependency('gstreamer-video-1.0',
+  fallback: ['gst-plugins-base', 'video_dep'])
+
+
 # sources used to compile this plug-in
 plugin_sources = [
-  'gstsimplefilterplugin.c',
   'gstsimplefilter.c',
   'gstsimplefilter.h'
 ]
@@ -11,7 +14,7 @@ shlib = shared_library('gstsimplefilter',
   plugin_sources,
   c_args : lib_args,
   include_directories: [configinc],
-  dependencies : plugin_deps,
+  dependencies : [plugin_deps, gstvideo_dep],
   gnu_symbol_visibility : 'hidden',
   install : true,
   install_dir : plugins_install_dir,
