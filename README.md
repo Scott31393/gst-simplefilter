@@ -89,8 +89,9 @@ index fda16ed..2cb660d 100644
    gnu_symbol_visibility : 'hidden',
    install : true,
    install_dir : plugins_install_dir,
-
 ```
+References:
+ - [fix plugin meson.build](https://github.com/Scott31393/gst-simplefilter/commit/b5e6b1d8e91da3de2ad47e2e62f2daa73a5387fe)
 
 ## Build the Project
 Plugins can be installed locally by using "$HOME" as prefix:
