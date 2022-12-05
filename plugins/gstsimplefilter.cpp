@@ -39,6 +39,11 @@
 #include <gst/video/gstvideofilter.h>
 #include "gstsimplefilter.hpp"
 
+#include <opencv2/core.hpp>
+#include <opencv2/opencv.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
+
 GST_DEBUG_CATEGORY_STATIC (gst_simplefilter_debug_category);
 #define GST_CAT_DEFAULT gst_simplefilter_debug_category
 
