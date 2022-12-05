@@ -34,11 +34,13 @@
 #include "config.h"
 #endif
 
+/* gstreamer header files */
 #include <gst/gst.h>
 #include <gst/video/video.h>
 #include <gst/video/gstvideofilter.h>
 #include "gstsimplefilter.hpp"
 
+/* OpenCV header files */
 #include <opencv2/core.hpp>
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
