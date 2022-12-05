@@ -6,8 +6,8 @@ gstvideo_dep = dependency('gstreamer-video-1.0',
 
 # sources used to compile this plug-in
 plugin_sources = [
-  'gstsimplefilter.c',
-  'gstsimplefilter.h'
+  'gstsimplefilter.cpp',
+  'gstsimplefilter.hpp'
 ]
 
 shlib = shared_library('gstsimplefilter',

@@ -37,14 +37,12 @@
 #include <gst/gst.h>
 #include <gst/video/video.h>
 #include <gst/video/gstvideofilter.h>
-#include "gstsimplefilter.h"
+#include "gstsimplefilter.hpp"
 
 GST_DEBUG_CATEGORY_STATIC (gst_simplefilter_debug_category);
 #define GST_CAT_DEFAULT gst_simplefilter_debug_category
 
 /* prototypes */
-
-
 static void gst_simplefilter_set_property (GObject * object,
     guint property_id, const GValue * value, GParamSpec * pspec);
 static void gst_simplefilter_get_property (GObject * object,
