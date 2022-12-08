@@ -8,8 +8,7 @@ opencv_dep = dependency('opencv4',
 
 # sources used to compile this plug-in
 plugin_sources = [
-  'gstsimplefilter.cpp',
-  'gstsimplefilter.hpp'
+  'gstsimplefilter.cpp'
 ]
 
 shlib = shared_library('gstsimplefilter',
