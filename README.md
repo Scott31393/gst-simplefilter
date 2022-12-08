@@ -1,15 +1,86 @@
-# Simple Gstreamer element
+<p align="left">
+  <img width="400" height="150" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Gstreamer-logo.svg/2560px-Gstreamer-logo.svg.png">
+</p>
+
+
+# Simple Gstreamer Video Element
 
 ## Introduction
-This project is born to learn how to write a Gstreamer video element from scratch.
+Simple Gstreamer Element from scratch.
+<p align="center">
+  <img src="https://gstreamer.freedesktop.org/documentation/tutorials/basic/images/figure-1.png">
+</p>
 
-## Get Started
+<p align="center">
+  <img src="https://gstreamer.freedesktop.org/documentation/application-development/basics/images/filter-element.png">
+</p>
+
+Filters and filter-like elements have both input and outputs pads. They operate on data that they receive on their input (sink) pads, and will provide data on their output (source) pads. Examples of such elements are a volume element (filter), a video scaler (convertor), an Ogg demuxer or a Vorbis decoder.
+
+Filter-like elements can have any number of source or sink pads. A video demuxer, for example, would have one sink pad and several (1-N) source pads, one for each elementary stream contained in the container format. Decoders, on the other hand, will only have one source and sink pads.
+
+
+
+#### Project Structure:
+```
+.
+├── AUTHORS
+├── ChangeLog
+├── COPYING
+├── meson.build
+├── NEWS
+├── plugins
+│   ├── gstsimplefilter.cpp
+│   ├── gstsimplefilter.hpp
+│   └── meson.build
+├── README.md
+└── tools
+    ├── gstsimplefilter.cpp
+    └── meson.build
+
+2 directories, 11 files
+```
+
+References:
+ - [GStreamer elements](https://gstreamer.freedesktop.org/documentation/application-development/basics/elements.html#elements)
+ - [GStreamer Writer's Guide](https://gstreamer.freedesktop.org/documentation/plugin-development/index.html?gi-language=c)
+ - [GstVideoFilter](https://gstreamer.freedesktop.org/documentation/video/gstvideofilter.html?gi-language=c)
+ - [GStreamer filter elements](https://gstreamer.freedesktop.org/documentation/application-development/basics/elements.html#filters-convertors-demuxers-muxers-and-codecs)
+
+## Build Gstreamer Video Element
+First get the sources and cd inside:
+```
+$ git clone https://github.com/Scott31393/gst-simplefilter.git
+$ cd gst-simplefilter
+```
+Than build the project. Remember that plugins can be installed locally by using "$HOME" as prefix:
+
+```
+$ meson --prefix="$HOME" build/
+$ ninja -C build/ install
+```
+
+However be advised that the automatic scan of plugins in the user home directory won't work under gst-build devenv.
+
+## Use Gstreamer Video Element
+To test and use gst simplefilter element just run the following gst-launch pipeline:
+
+```
+$ gst-launch-1.0 v4l2src ! videoconvert ! simplefilter ! videoconvert ! xvimagesink
+```
+Debug the element using:
+```
+$ GST_DEBUG=simplefilter:5 gst-launch-1.0 v4l2src ! videoconvert ! simplefilter ! videoconvert ! xvimagesink
+```
+
+
+## Create New Element from Scratch
 Clone gst-plugins-bad repository:
 ```
 $ git clone https://github.com/GStreamer/gst-plugins-bad.git
 ```
 
-## Create GStreamer Project from Template
+### Create GStreamer Project from Template
 Go inside tools dir and create project from template using gst-project-maker:
 
 ```
@@ -37,7 +108,7 @@ gst-simplefilter/
 2 directories, 12 files
 ```
 
-## Create GStreamer Element from Template
+### Create GStreamer Element from Template
 Go inside tools dir and create project from template using gst-element-maker:
 ```
 $ ./gst-element-maker "simplefilter" videofilter
@@ -50,7 +121,7 @@ gstsimplefilter.o
 gstsimplefilter.so
 ```
 
-## Move Create Element into the Create Project
+### Move Create Element into the Create Project
 Move create element file into created plugin project directory:
 
 ```
@@ -58,48 +129,10 @@ $ mv gstsimplefilter.c gst-simplefilter/plugins/
 $ mv gstsimplefilter.h gst-simplefilter/plugins/
 ```
 
-## Fix Meson Build Files
+### Fix Meson Build Files
 
 Since it is an element created by inheriting **videofilter**, it is necessary to add a dependency to meson.build. Other thing is that function ***gst_element_register*** is duplicated, so delete ***simplefilterplugin.c*** file and update plugin meson.build file:
 
-```
-diff --git a/plugins/meson.build b/plugins/meson.build
-index fda16ed..2cb660d 100644
---- a/plugins/meson.build
-+++ b/plugins/meson.build
-@@ -1,8 +1,11 @@
- lib_args = common_args + []
- 
-+gstvideo_dep = dependency('gstreamer-video-1.0',
-+  fallback: ['gst-plugins-base', 'video_dep'])
-+
-+
- # sources used to compile this plug-in
- plugin_sources = [
--  'gstsimplefilterplugin.c',
-   'gstsimplefilter.c',
-   'gstsimplefilter.h'
- ]
-@@ -11,7 +14,7 @@ shlib = shared_library('gstsimplefilter',
-   plugin_sources,
-   c_args : lib_args,
-   include_directories: [configinc],
--  dependencies : plugin_deps,
-+  dependencies : [plugin_deps, gstvideo_dep],
-   gnu_symbol_visibility : 'hidden',
-   install : true,
-   install_dir : plugins_install_dir,
-```
 References:
  - [fix plugin meson.build](https://github.com/Scott31393/gst-simplefilter/commit/b5e6b1d8e91da3de2ad47e2e62f2daa73a5387fe)
-
-## Build the Project
-Plugins can be installed locally by using "$HOME" as prefix:
-
-```
-$ meson --prefix="$HOME" build/
-$ ninja -C build/ install
-```
-
-However be advised that the automatic scan of plugins in the user home
-directory won't work under gst-build devenv.
+ - [move from c to cpp](https://github.com/Scott31393/gst-simplefilter/commit/9e16950473c722cdd1c00ff324cd0837eeb89cb7)
