@@ -1,7 +1,7 @@
 # Simple Gstreamer element
 
 ## Introduction
-This project born for learn how to create a Gstreamer plugin from scratch. Meanwhile we learn some theoric stuff we try to develop a simple Gstreamer element (plugin) and provide a good documentation.
+This project is born to learn how to write a Gstreamer video element from scratch.
 
 ## Get Started
 Clone gst-plugins-bad repository:
