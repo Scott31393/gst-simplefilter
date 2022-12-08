@@ -217,7 +217,24 @@ static GstFlowReturn
 gst_simplefilter_transform_frame (GstVideoFilter * filter, GstVideoFrame * inframe,
     GstVideoFrame * outframe)
 {
+  gint height;
+  gint width;
+  guint8 *frame_in;
+  guint8 *frame_out;
+
   GstSimplefilter *simplefilter = GST_SIMPLEFILTER (filter);
+
+  frame_in = (guint8 *) GST_VIDEO_FRAME_PLANE_DATA (inframe, 0);
+  frame_out = (guint8 *) GST_VIDEO_FRAME_PLANE_DATA (outframe, 0);
+  width = GST_VIDEO_FRAME_COMP_WIDTH (inframe, 0);
+  height = GST_VIDEO_FRAME_COMP_HEIGHT (inframe, 0);
+
+  cv::Mat img_in(height, width, CV_8UC4, frame_in);
+  cv::Mat img_out(height, width, CV_8UC4, frame_out);
+
+  cv::Rect r=cv::Rect(0,0,(width),(height));
+  cv::rectangle(img_in,r,cv::Scalar(0,255,0),10,8,0);
+  img_in.copyTo(img_out);
 
   GST_DEBUG_OBJECT (simplefilter, "transform_frame");
 
