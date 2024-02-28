@@ -47,6 +47,35 @@ References:
  - [GstVideoFilter](https://gstreamer.freedesktop.org/documentation/video/gstvideofilter.html?gi-language=c)
  - [GStreamer filter elements](https://gstreamer.freedesktop.org/documentation/application-development/basics/elements.html#filters-convertors-demuxers-muxers-and-codecs)
 
+## Setup GStreamer Build Env
+First install dependencies:
+```
+sudo apt install build-essential python3 git ninja-build python3-pip
+```
+Install meson from the pip repo:
+```
+pip3 install --user meson
+```
+Clone and build GStreamer repos:
+```
+git clone https://gitlab.freedesktop.org/gstreamer/gst-build
+cd gst-build
+meson build --buildtype=debug
+ninja -C build
+```
+
+Use build devenv environment.
+This command will create an environment where all tools and plugins built previously are available in the environment as a superset of the system environment with the right environment variables set.
+
+```
+ninja -C build devenv
+```
+
+Your bash become:
+```
+[gst-discontinued-for-monorepo] $
+```
+
 ## Build Gstreamer Video Element
 First get the sources and cd inside:
 ```
@@ -61,6 +90,16 @@ $ ninja -C build/ install
 ```
 
 However be advised that the automatic scan of plugins in the user home directory won't work under gst-build devenv.
+
+Instead of add the plugin into your home you can add the plugin path to the GST_PLUGIN_PATH.
+
+```
+export GST_PLUGIN_PATH=$GST_PLUGIN_PATH:/path-to/gst-simplefilter/build/plugins/
+```
+
+
+References:
+ - [Getting started with GStreamer's gst-build](https://www.collabora.com/news-and-blog/blog/2020/03/19/getting-started-with-gstreamer-gst-build/)
 
 ## Use Gstreamer Video Element
 To test and use gst simplefilter element just run the following gst-launch pipeline:
