@@ -168,6 +168,15 @@ $ mv gstsimplefilter.c gst-simplefilter/plugins/
 $ mv gstsimplefilter.h gst-simplefilter/plugins/
 ```
 
+### Cross Compile for arm64
+```
+source /opt/fslc-xwayland/4.1-snapshot-20240610/environment-setup-cortexa53-crypto-fslc-linux
+meson build
+ninja -C build
+sudo cp build/plugins/libgstsimplefilter.so /targetfs/usr/lib/gstreamer-1.0/
+gst-inspect-1.0 simplefilter
+```
+
 ### Fix Meson Build Files
 
 Since it is an element created by inheriting **videofilter**, it is necessary to add a dependency to meson.build. Other thing is that function ***gst_element_register*** is duplicated, so delete ***simplefilterplugin.c*** file and update plugin meson.build file:
